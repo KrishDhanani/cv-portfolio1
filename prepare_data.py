@@ -58,15 +58,45 @@ def split_dataset(images, train_ratio=0.70, seed=42):
     )
     return {"train": sorted(train), "val": sorted(val), "test": sorted(test)}
 
+def link_or_copy(src, dst):
+    """Put a file into the new folder using a hard link (instant, no extra space).
+    If that is not possible, copy it instead.
+    """
+    if os.path.exists(dst):
+        return
+    try:
+        os.link(src, dst)
+    except OSError:
+        shutil.copyfile(src, dst)
+
+
+def build_yolo_folders(source, out_dir, splits):
+    """Create out_dir/<split>/images and labels, plus a <split>.txt file list."""
+    for split, files in splits.items():
+        for sub in ("images", "labels"):
+            os.makedirs(os.path.join(out_dir, split, sub), exist_ok=True)
+
+        for name in files:
+            link_or_copy(os.path.join(source, "images", name),
+                         os.path.join(out_dir, split, "images", name))
+            link_or_copy(os.path.join(source, "labels", label_name(name)),
+                         os.path.join(out_dir, split, "labels", label_name(name)))
+
+        with open(os.path.join(out_dir, f"{split}.txt"), "w") as f:
+            f.write("\n".join(files))
+
 if __name__ == "__main__":
     SRC = "/kaggle/input/datasets/talha972/garbagedataset-forcv/GarbageDataset"
     DST = "/kaggle/working/GarbageDataset"
+    OUT = "/kaggle/working/data"
 
     copy_dataset(SRC, DST)
 
     images = sorted(os.listdir(f"{DST}/images"))
     splits = split_dataset(images)
+    build_yolo_folders(DST, OUT, splits)
 
-    for name, files in splits.items():
-        counts = Counter(category(f) for f in files)
-        print(f"{name:<5} {len(files):>5} images  {dict(sorted(counts.items()))}")
+    for split in splits:
+        n_img = len(os.listdir(f"{OUT}/{split}/images"))
+        n_lbl = len(os.listdir(f"{OUT}/{split}/labels"))
+        print(f"{split:<5} images: {n_img:>5}  labels: {n_lbl:>5}")
