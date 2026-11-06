@@ -85,6 +85,18 @@ def build_yolo_folders(source, out_dir, splits):
         with open(os.path.join(out_dir, f"{split}.txt"), "w") as f:
             f.write("\n".join(files))
 
+def write_data_yaml(out_dir):
+    """Write data.yaml: tells YOLO where the data is and what the classes are."""
+    path = os.path.join(out_dir, "data.yaml")
+    with open(path, "w") as f:
+        f.write(f"path: {out_dir}\n")
+        f.write("train: train/images\n")
+        f.write("val: val/images\n")
+        f.write("test: test/images\n\n")
+        f.write(f"nc: {len(CLASSES)}\n")
+        f.write(f"names: {CLASSES}\n")
+    return path
+
 if __name__ == "__main__":
     SRC = "/kaggle/input/datasets/talha972/garbagedataset-forcv/GarbageDataset"
     DST = "/kaggle/working/GarbageDataset"
@@ -96,7 +108,5 @@ if __name__ == "__main__":
     splits = split_dataset(images)
     build_yolo_folders(DST, OUT, splits)
 
-    for split in splits:
-        n_img = len(os.listdir(f"{OUT}/{split}/images"))
-        n_lbl = len(os.listdir(f"{OUT}/{split}/labels"))
-        print(f"{split:<5} images: {n_img:>5}  labels: {n_lbl:>5}")
+    yaml_path = write_data_yaml(OUT)
+    print(open(yaml_path).read())
