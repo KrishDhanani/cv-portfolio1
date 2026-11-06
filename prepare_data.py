@@ -1,3 +1,4 @@
+import argparse
 import os
 import re
 import shutil
@@ -97,16 +98,42 @@ def write_data_yaml(out_dir):
         f.write(f"names: {CLASSES}\n")
     return path
 
+def report_split(source, splits):
+    """Print images, boxes and the share of boxes per class in each split."""
+    print(f"{'split':<6} {'images':>7} {'boxes':>7}  " + "  ".join(f"{c[:7]:>7}" for c in CLASSES))
+    for split, files in splits.items():
+        boxes = Counter()
+        for name in files:
+            with open(os.path.join(source, "labels", label_name(name))) as f:
+                for line in f:
+                    if line.strip():
+                        boxes[int(line.split()[0])] += 1
+        total = sum(boxes.values())
+        shares = "  ".join(f"{100 * boxes[i] / total:6.1f}%" for i in range(len(CLASSES)))
+        print(f"{split:<6} {len(files):>7} {total:>7}  {shares}")
+
+def main():
+    parser = argparse.ArgumentParser(description="Prepare the garbage dataset for YOLO training.")
+    parser.add_argument("--src", required=True, help="Original dataset folder with images/ and labels/")
+    parser.add_argument("--work", default="/kaggle/working", help="Writable working directory")
+    parser.add_argument("--train-ratio", type=float, default=0.70, help="Share of images for training")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed for a reproducible split")
+    args = parser.parse_args()
+
+    local_copy = os.path.join(args.work, "GarbageDataset")
+    out_dir = os.path.join(args.work, "data")
+
+    copy_dataset(args.src, local_copy)
+
+    images = sorted(os.listdir(os.path.join(local_copy, "images")))
+    splits = split_dataset(images, args.train_ratio, args.seed)
+    build_yolo_folders(local_copy, out_dir, splits)
+
+    yaml_path = write_data_yaml(out_dir)
+    print(f"\n[yaml] {yaml_path}\n" + open(yaml_path).read())
+
+    report_split(local_copy, splits)
+
+
 if __name__ == "__main__":
-    SRC = "/kaggle/input/datasets/talha972/garbagedataset-forcv/GarbageDataset"
-    DST = "/kaggle/working/GarbageDataset"
-    OUT = "/kaggle/working/data"
-
-    copy_dataset(SRC, DST)
-
-    images = sorted(os.listdir(f"{DST}/images"))
-    splits = split_dataset(images)
-    build_yolo_folders(DST, OUT, splits)
-
-    yaml_path = write_data_yaml(OUT)
-    print(open(yaml_path).read())
+    main()
