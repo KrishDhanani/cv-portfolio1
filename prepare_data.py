@@ -1,5 +1,8 @@
 import os
 import re
+import shutil
+from concurrent.futures import ThreadPoolExecutor
+
 
 # The 6 classes in the same order as the IDs in the label files (0-5)
 CLASSES = ["biodegradable", "cardboard", "glass", "metal", "paper", "plastic"]
@@ -20,13 +23,28 @@ def label_name(image_name):
     """
     return os.path.splitext(image_name)[0] + ".txt"
 
+def copy_dataset(src, dst, workers=64):
+    """Copy images and labels to a fast, writable folder.
+    Files that already exist are skipped.
+    """
+    jobs = []
+    for sub in ("images", "labels"):
+        os.makedirs(os.path.join(dst, sub), exist_ok=True)
+        for name in os.listdir(os.path.join(src, sub)):
+            target = os.path.join(dst, sub, name)
+            if not os.path.exists(target):
+                jobs.append((os.path.join(src, sub, name), target))
+
+    print(f"[copy] files to copy: {len(jobs)}")
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        list(pool.map(lambda pair: shutil.copyfile(*pair), jobs))
+    print(f"[copy] done -> {dst}")
+
 
 if __name__ == "__main__":
-    # Quick test of the two functions
-    test_files = [
-        "biodegradable1000_jpg.rf.9407ff66b4ccd9f8eb5545be8f3225f4.jpg",
-        "glass12_jpeg.rf.abc123.jpg",
-        "plastic7_jpg.rf.xyz.jpg",
-    ]
-    for f in test_files:
-        print(f"{f}\n  category: {category(f)}\n  label:    {label_name(f)}\n")
+    SRC = "/kaggle/input/datasets/talha972/garbagedataset-forcv/GarbageDataset"
+    DST = "/kaggle/working/GarbageDataset"
+
+    copy_dataset(SRC, DST)
+    print("images:", len(os.listdir(f"{DST}/images")))
+    print("labels:", len(os.listdir(f"{DST}/labels")))
