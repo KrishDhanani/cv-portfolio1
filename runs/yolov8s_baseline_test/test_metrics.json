@@ -1,0 +1,51 @@
+{
+  "weights": "/kaggle/working/runs/yolov8s_baseline/weights/best.pt",
+  "mAP50": 0.6946,
+  "mAP50-95": 0.4909,
+  "precision": 0.7492,
+  "recall": 0.6184,
+  "per_class": [
+    {
+      "class": "biodegradable",
+      "precision": 0.7822,
+      "recall": 0.5138,
+      "mAP50": 0.6163,
+      "mAP50-95": 0.3353
+    },
+    {
+      "class": "cardboard",
+      "precision": 0.682,
+      "recall": 0.6254,
+      "mAP50": 0.6853,
+      "mAP50-95": 0.5061
+    },
+    {
+      "class": "glass",
+      "precision": 0.8331,
+      "recall": 0.6736,
+      "mAP50": 0.7734,
+      "mAP50-95": 0.5814
+    },
+    {
+      "class": "metal",
+      "precision": 0.7648,
+      "recall": 0.703,
+      "mAP50": 0.7537,
+      "mAP50-95": 0.5546
+    },
+    {
+      "class": "paper",
+      "precision": 0.7105,
+      "recall": 0.6072,
+      "mAP50": 0.6681,
+      "mAP50-95": 0.5158
+    },
+    {
+      "class": "plastic",
+      "precision": 0.7225,
+      "recall": 0.5875,
+      "mAP50": 0.6709,
+      "mAP50-95": 0.4523
+    }
+  ]
+}
