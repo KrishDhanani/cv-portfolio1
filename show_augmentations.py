@@ -1,7 +1,7 @@
 """
 Part 2 - Example pictures of data augmentation.
 
-Takes real training images and shows the augmentations we use, plus one
+Takes real training images from the team's cleaned split and shows the augmentations we use, plus one
 we deliberately do NOT use (strong hue shift), with the boxes drawn in.
 The result is one figure for the presentation.
 
@@ -13,7 +13,7 @@ Lecture reference: Recap 1, slides 205-210 (data augmentation,
 "probably the same class" vs. "not the same class").
 
 Usage:
-    python show_augmentations.py --data-dir /kaggle/working/data
+    python show_augmentations.py --data-dir /kaggle/working/GarbageSplit
 """
 
 import argparse
@@ -36,8 +36,8 @@ def category(filename):
 
 def load_image(data_dir, name):
     """Load one training image and its boxes [(class, x, y, w, h), ...] (YOLO format, 0-1)."""
-    img = cv2.imread(os.path.join(data_dir, "train", "images", name))
-    label_path = os.path.join(data_dir, "train", "labels", os.path.splitext(name)[0] + ".txt")
+    img = cv2.imread(os.path.join(data_dir, "images", "train", name))
+    label_path = os.path.join(data_dir, "labels", "train", os.path.splitext(name)[0] + ".txt")
     with open(label_path) as f:
         labels = [(int(p[0]), *map(float, p[1:5])) for p in (l.split() for l in f) if p]
     return img, labels
@@ -97,7 +97,7 @@ def mosaic(samples, size=416):
 def pick_examples(data_dir, seed):
     """Pick one glass image with a few boxes, and four images of different categories for the mosaic."""
     rng = random.Random(seed)
-    names = sorted(os.listdir(os.path.join(data_dir, "train", "images")))
+    names = sorted(os.listdir(os.path.join(data_dir, "images", "train")))
 
     def has_few_boxes(name, low=2, high=6):
         return low <= len(load_image(data_dir, name)[1]) <= high
@@ -116,7 +116,7 @@ def pick_examples(data_dir, seed):
 
 def main():
     parser = argparse.ArgumentParser(description="Show example pictures of the data augmentation.")
-    parser.add_argument("--data-dir", default="/kaggle/working/data", help="Folder created by prepare_data.py")
+    parser.add_argument("--data-dir", default="/kaggle/working/GarbageSplit", help="Folder created by setup_data.py")
     parser.add_argument("--out", default="/kaggle/working/augmentation_examples.png")
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
