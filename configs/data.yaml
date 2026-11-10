@@ -1,0 +1,11 @@
+# TEMPLATE — update these paths and class names for your actual dataset.
+# Paths are relative to the repository root unless made absolute.
+path: data/processed
+train: images/train
+val: images/val
+test: images/test
+
+# TODO: Replace with the exact class names and IDs from the dataset annotations.
+names:
+  0: REPLACE_WITH_CLASS_0
+  1: REPLACE_WITH_CLASS_1

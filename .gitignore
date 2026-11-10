@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Secrets and local configuration
+.env
+.env.*
+
+# Dataset and generated artifacts (keep folder structure with .gitkeep)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Model weights and training runs can be large
+models/*
+!models/README.md
+!models/.gitkeep
+runs/
+wandb/
+
+# Generated outputs: commit selected final figures/metrics intentionally
+results/**/*
+!results/**/
+!results/**/.gitkeep
