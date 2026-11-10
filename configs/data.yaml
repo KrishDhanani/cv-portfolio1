@@ -1,11 +1,16 @@
-# TEMPLATE — update these paths and class names for your actual dataset.
-# Paths are relative to the repository root unless made absolute.
+# Dataset config for YOLO (Task 1b, data pipeline).
+# Local: unzip GarbageSplit into data/processed/ (images/ and labels/ inside).
+# Kaggle: run src/data/setup_data.py, which writes the same config
+#         with the full Kaggle path to /kaggle/working/GarbageSplit/data.yaml
 path: data/processed
 train: images/train
 val: images/val
 test: images/test
 
-# TODO: Replace with the exact class names and IDs from the dataset annotations.
 names:
-  0: REPLACE_WITH_CLASS_0
-  1: REPLACE_WITH_CLASS_1
+  0: biodegradable
+  1: cardboard
+  2: glass
+  3: metal
+  4: paper
+  5: plastic
