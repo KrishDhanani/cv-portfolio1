@@ -1,0 +1,12 @@
+# Augmentation settings for training (Task 1b, data pipeline).
+# Reasons: notebooks/02_data_pipeline/preprocessing_augmentation.ipynb
+fliplr: 0.5      # mirrored objects keep their class
+flipud: 0.0      # dataset already contains some upside-down images
+hsv_h: 0.015     # small: colour helps identify the material
+hsv_s: 0.7       # web images with very different lighting
+hsv_v: 0.4
+mosaic: 1.0      # multi-object scenes, objects at different scales
+scale: 0.5       # objects at different sizes
+translate: 0.1   # objects at different positions
+degrees: 0.0     # rotation makes boxes inaccurate
+mixup: 0.0       # blending materials creates unrealistic objects
