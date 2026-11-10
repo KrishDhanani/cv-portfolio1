@@ -37,7 +37,80 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
-
+cv-portfolio1/
+│
+├── README.md
+├── CONTRIBUTING.md
+├── requirements.txt
+├── .gitignore
+├── LICENSE
+│
+├── configs/
+│   └── data.yaml
+│
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── README.md
+│
+├── notebooks/
+│   ├── 01_dataset_analysis/
+│   │   └── dataset_analysis.ipynb
+│   │
+│   ├── 02_data_pipeline/
+│   │   └── preprocessing_augmentation.ipynb
+│   │
+│   ├── 03_training_evaluation/
+│   │   └── model_training.ipynb
+│   │
+│   └── 04_visualization_error_analysis/
+│       └── error_analysis.ipynb
+│
+├── src/
+│   ├── __init__.py
+│   │
+│   ├── data/
+│   │   ├── __init__.py
+│   │   └── dataset_utils.py
+│   │
+│   ├── training/
+│   │   ├── __init__.py
+│   │   └── train.py
+│   │
+│   ├── evaluation/
+│   │   ├── __init__.py
+│   │   └── evaluate.py
+│   │
+│   └── visualization/
+│       ├── __init__.py
+│       ├── predictions.py
+│       ├── error_analysis.py
+│       └── metrics_visualization.py
+│
+├── models/
+│   └── README.md
+│
+├── results/
+│   ├── dataset_analysis/
+│   ├── training/
+│   ├── evaluation/
+│   └── error_analysis/
+│       ├── correct/
+│       ├── missed/
+│       └── incorrect/
+│
+├── reports/
+│   ├── figures/
+│   └── presentation/
+│
+├── docs/
+│   ├── project_overview.md
+│   ├── methodology.md
+│   └── contributions.md
+│
+└── tests/
+    └── test_visualization.py
+    
 ## Dataset setup
 
 1. Obtain the dataset from the source provided by the course.
