@@ -1,0 +1,11 @@
+path: GarbageSplit
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: biodegradable
+  1: cardboard
+  2: glass
+  3: metal
+  4: paper
+  5: plastic
