@@ -44,3 +44,10 @@ wandb/
 results/**/*
 !results/**/
 !results/**/.gitkeep
+
+
+# Archives, Kaggle data and secrets
+*.zip
+GarbageSplit/
+kaggle.json
+For Presentation.png
