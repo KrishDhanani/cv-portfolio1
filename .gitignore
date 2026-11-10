@@ -1,0 +1,18 @@
+# Data and archives (live on Kaggle, not in Git)
+data/
+GarbageDataset/
+GarbageSplit/
+*.zip
+
+# Model weights: only the final model in models/ is kept
+*.pt
+!models/*.pt
+
+# Python and notebooks
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Secrets
+kaggle.json
+.env
