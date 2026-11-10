@@ -37,6 +37,9 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
+## 📁 Project Structure
+
+```text
 cv-portfolio1/
 │
 ├── README.md
@@ -56,31 +59,24 @@ cv-portfolio1/
 ├── notebooks/
 │   ├── 01_dataset_analysis/
 │   │   └── dataset_analysis.ipynb
-│   │
 │   ├── 02_data_pipeline/
 │   │   └── preprocessing_augmentation.ipynb
-│   │
 │   ├── 03_training_evaluation/
 │   │   └── model_training.ipynb
-│   │
 │   └── 04_visualization_error_analysis/
 │       └── error_analysis.ipynb
 │
 ├── src/
 │   ├── __init__.py
-│   │
 │   ├── data/
 │   │   ├── __init__.py
 │   │   └── dataset_utils.py
-│   │
 │   ├── training/
 │   │   ├── __init__.py
 │   │   └── train.py
-│   │
 │   ├── evaluation/
 │   │   ├── __init__.py
 │   │   └── evaluate.py
-│   │
 │   └── visualization/
 │       ├── __init__.py
 │       ├── predictions.py
@@ -110,6 +106,7 @@ cv-portfolio1/
 │
 └── tests/
     └── test_visualization.py
+```
     
 ## Dataset setup
 
