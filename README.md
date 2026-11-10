@@ -1,87 +1,130 @@
-# cv-portfolio1: Waste Object Detection (Computer Vision, WS 2026/27)
+# CV Portfolio 1 — Garbage Detection
 
-Portfolio 1 for the Computer Vision course at THWS (Prof. Dominik Seuß).
-We train a YOLOv8 object detector that finds waste items in images and
-classifies them into six classes:
+A collaborative computer-vision project for Assignment 1: object detection for automated waste sorting.
 
-| ID | Class |
-|---|---|
-| 0 | biodegradable |
-| 1 | cardboard |
-| 2 | glass |
-| 3 | metal |
-| 4 | paper |
-| 5 | plastic |
+## Project status
+Repository scaffold only. Replace the TODO sections and dummy files with the team's completed work.
 
-## Team and tasks (Assignment 1)
+## Team responsibilities
 
-| Person | Task | Folder |
+| Member | Task | Main location |
 |---|---|---|
-| Ismail | Task 1a: dataset analysis, cleaning, train/val/test split | `task1_data/` |
-| Talha | Task 1b: data pipeline: Kaggle data setup, image size, augmentation | `task1_data/` |
-| Areej | Task 2: model training and evaluation | `task2_training/` |
-| Krish | Task 3: visualization and error analysis | `task3_error_analysis/` |
+| Person 1 | Task 1a — Dataset analysis | `notebooks/01_dataset_analysis/`, `results/dataset_analysis/` |
+| Person 2 | Task 1b — Data pipeline | `notebooks/02_data_pipeline/`, `configs/`, `src/data/` |
+| Person 3 | Task 2 — Training and evaluation | `notebooks/03_training_evaluation/`, `src/training/`, `src/evaluation/`, `models/`, `results/` |
+| Person 4 | Task 3 — Visualization and error analysis | `notebooks/04_visualization_error_analysis/`, `src/visualization/`, `results/error_analysis/` |
 
-## Repository structure
+## Repository layout
 
+- `configs/`: dataset and experiment configuration.
+- `data/`: dataset location instructions. Dataset files are intentionally not included.
+- `notebooks/`: task-specific exploratory and reporting notebooks.
+- `src/`: reusable Python implementation.
+- `models/`: trained model storage instructions. Large weights should not normally be committed directly.
+- `results/`: generated metrics, plots, and error-analysis examples.
+- `reports/`: final figures and presentation material.
+- `docs/`: methodology, project overview, and contribution records.
+- `tests/`: basic automated tests.
+
+## Setup
+
+```bash
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+
+pip install -r requirements.txt
 ```
+## 📁 Project Structure
+
+```text
 cv-portfolio1/
+│
 ├── README.md
+├── CONTRIBUTING.md
 ├── requirements.txt
-├── task1_data/
-│   ├── setup_data.py              Copies the cleaned split to /kaggle/working and writes data.yaml
-│   ├── image_size_experiment.py   Compares imgsz 416 vs 640 (short YOLOv8n runs)
-│   ├── show_augmentations.py      Figure with examples of the augmentations we use
-│   └── archive/
-│       └── prepare_data.py        First split on the raw data (replaced by the cleaned split)
-├── task2_training/                Training and evaluation (YOLOv8s)
-└── task3_error_analysis/          Correct, missed and wrong detections
+├── .gitignore
+├── LICENSE
+│
+├── configs/
+│   └── data.yaml
+│
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── README.md
+│
+├── notebooks/
+│   ├── 01_dataset_analysis/
+│   │   └── dataset_analysis.ipynb
+│   ├── 02_data_pipeline/
+│   │   └── preprocessing_augmentation.ipynb
+│   ├── 03_training_evaluation/
+│   │   └── model_training.ipynb
+│   └── 04_visualization_error_analysis/
+│       └── error_analysis.ipynb
+│
+├── src/
+│   ├── __init__.py
+│   ├── data/
+│   │   ├── __init__.py
+│   │   └── dataset_utils.py
+│   ├── training/
+│   │   ├── __init__.py
+│   │   └── train.py
+│   ├── evaluation/
+│   │   ├── __init__.py
+│   │   └── evaluate.py
+│   └── visualization/
+│       ├── __init__.py
+│       ├── predictions.py
+│       ├── error_analysis.py
+│       └── metrics_visualization.py
+│
+├── models/
+│   └── README.md
+│
+├── results/
+│   ├── dataset_analysis/
+│   ├── training/
+│   ├── evaluation/
+│   └── error_analysis/
+│       ├── correct/
+│       ├── missed/
+│       └── incorrect/
+│
+├── reports/
+│   ├── figures/
+│   └── presentation/
+│
+├── docs/
+│   ├── project_overview.md
+│   ├── methodology.md
+│   └── contributions.md
+│
+└── tests/
+    └── test_visualization.py
 ```
+    
+## Dataset setup
 
-## Dataset
+1. Obtain the dataset from the source provided by the course.
+2. Keep the original dataset under `data/raw/` (or configure another local path).
+3. Prepare the YOLO-format train/validation/test folders according to the pipeline.
+4. Update `configs/data.yaml` with the actual paths and class names.
 
-- Original: Kaggle dataset `talha972/garbagedataset-forcv` (10,464 images, 416x416, YOLO format, Roboflow export)
-- Cleaned and split: Kaggle dataset `talha972/garbage-split`
-  - 9,405 images, 36,879 boxes after removing very crowded single-class biodegradable images
-  - Split about 71 / 14 / 14: 6,717 train, 1,344 val, 1,344 test
-  - Stratified by main class and single/mixed images, near-duplicates kept in the same split, seed 42
+The dataset is not included in this repository.
 
-## How to run on Kaggle
+## Running code
 
-1. Create a notebook, turn **Internet on** and choose a **GPU (T4)**.
-2. Add the dataset **garbage-split** (Add Input, Datasets).
-3. Run this cell:
+Reusable code is under `src/`. Example commands will be added once the team's training and evaluation scripts are finalized.
 
-```python
-!rm -rf /tmp/repo
-!git clone --depth 1 https://github.com/MTalhaKhan326/cv-portfolio1.git /tmp/repo
-!pip install -q -r /tmp/repo/requirements.txt
+## Collaboration
 
-# Task 1: prepare the data (creates /kaggle/working/GarbageSplit/data.yaml)
-!python /tmp/repo/task1_data/setup_data.py --src /kaggle/input/datasets/talha972/garbage-split/GarbageSplit
-```
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes. Work on a task branch and open a pull request into `main`.
 
-4. Train with `data="/kaggle/working/GarbageSplit/data.yaml"` (see `task2_training/`).
+## Reproducibility
 
-Optional, Task 1 analysis scripts:
-
-```python
-!python /tmp/repo/task1_data/image_size_experiment.py --data /kaggle/working/GarbageSplit/data.yaml
-!python /tmp/repo/task1_data/show_augmentations.py --data-dir /kaggle/working/GarbageSplit
-```
-
-## Agreed training settings (from Task 1)
-
-| Setting | Value | Reason |
-|---|---|---|
-| `imgsz` | 416 | Native image size; 416 matched or beat 640 in our tests and is about 1.6x faster |
-| `fliplr` | 0.5 | A mirrored object keeps its class |
-| `flipud` | 0.0 | The dataset already contains some upside-down images |
-| `hsv_h` | 0.015 | Small, because colour helps identify the material |
-| `hsv_s`, `hsv_v` | 0.7, 0.4 | Web images with very different lighting |
-| `mosaic` | 1.0 | Multi-object scenes and objects at different scales |
-| `scale`, `translate` | 0.5, 0.1 | Objects appear at different sizes and positions |
-| `degrees`, `mixup` | 0.0 | Rotation makes boxes inaccurate; blending materials creates unrealistic objects |
-
-Train for clearly more than 10 epochs: YOLO switches mosaic off for the last 10 epochs.
-Use the test set only for the final evaluation.
+Record random seeds, package versions, dataset split details, model settings, and evaluation settings. Do not report placeholder values as experimental results.

@@ -1,8 +1,12 @@
+# Core project dependencies — pin exact versions after confirming the team's environment.
 ultralytics
-scikit-learn
 opencv-python
 matplotlib
 numpy
 pandas
-pillow
-pyyaml
+PyYAML
+Pillow
+seaborn
+scikit-learn
+jupyter
+pytest
