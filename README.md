@@ -20,7 +20,7 @@ classifies them into six classes:
 | Ismail | Task 1a: dataset analysis, cleaning, train/val/test split | `task1_data/` |
 | Talha | Task 1b: data pipeline: Kaggle data setup, image size, augmentation | `task1_data/` |
 | Areej | Task 2: model training and evaluation | `task2_training/` |
-| Person 4 | Task 3: visualization and error analysis | `task3_error_analysis/` |
+| Krish | Task 3: visualization and error analysis | `task3_error_analysis/` |
 
 ## Repository structure
 
